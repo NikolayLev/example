@@ -1,7 +1,12 @@
 package example.dijkstra;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Node {
     private String name;
+
+    public Map<Node, Integer> ribs = new HashMap<>();
 
     @Override
     public boolean equals(Object o) {

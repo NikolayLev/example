@@ -20,7 +20,7 @@ public class DijkstraAlg {
 
     }
 
-    public Map<Node, HashMap<Node, Integer>> graph = new HashMap();
+    public List<Node> graph = new ArrayList<>();
     public Map<Node, Integer> costs = new HashMap<>();
 
     public Map<Node, Node> parents = new HashMap<>();
@@ -30,13 +30,12 @@ public class DijkstraAlg {
         int lowestCost = INF;
         Node lowestCostNode = null;
         for (Map.Entry entry : costs.entrySet()) {
-            Node node = (Node) entry.getKey();
+            Node nodeFromCostEntry = (Node) entry.getKey();
             int cost = (Integer) entry.getValue();
 
-            if (cost < lowestCost & !proceed.contains(node)) {
+            if (cost < lowestCost & !proceed.contains(nodeFromCostEntry)) {
                 lowestCost = cost;
-                lowestCostNode = node;
-
+                lowestCostNode = nodeFromCostEntry;
             }
         }
         return lowestCostNode;
@@ -47,15 +46,15 @@ public class DijkstraAlg {
 
         while (node != null) {
             int cost = costs.get(node);
-            Map<Node, Integer> neighbors = graph.get(node);
+            Map<Node, Integer> neighbors = node.ribs;
+
 
             for (Map.Entry entry : neighbors.entrySet()) {
                 int newCost = cost + ((int) entry.getValue());
-                Node node1 = (Node)entry.getKey();
-                if (costs.get(node1) > newCost) {
-                    costs.put(node1, newCost);
-                    parents.put(node1,node);
-
+                Node neighborNode = (Node) entry.getKey();
+                if (costs.get(neighborNode) > newCost) {
+                    costs.put(neighborNode, newCost);
+                    parents.put(neighborNode, node);
                 }
             }
             proceed.add(node);
